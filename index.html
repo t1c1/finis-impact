@@ -7,7 +7,10 @@
   <meta name="description" content="Real-time orbital risk scoring for satellites and near-Earth objects. Conjunction assessment, maneuver planning, and planetary defense. API-first. Decision-ready.">
   <meta name="keywords" content="orbital safety, conjunction assessment, collision avoidance, space debris, satellite operations, planetary defense, DART, near-Earth objects, space situational awareness, SSA">
   <link rel="canonical" href="https://finisimpact.com">
-  <meta name="theme-color" content="#0a1628">
+  <meta name="theme-color" content="#080c14">
+
+  <!-- Favicon: orbital shield mark -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='none' stroke='%2300d4aa' stroke-width='1.5'/><circle cx='16' cy='16' r='4' fill='%2300d4aa'/><ellipse cx='16' cy='16' rx='14' ry='6' fill='none' stroke='%2300d4aa' stroke-width='0.8' transform='rotate(-30 16 16)'/></svg>" type="image/svg+xml">
 
   <meta property="og:title" content="FinisImpact | End Impacts. From Orbit to Earth.">
   <meta property="og:description" content="Real-time orbital risk scoring for satellites and near-Earth objects. API-first. Decision-ready. Autonomy-ready.">
@@ -31,29 +34,29 @@
   </script>
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #060a12;
-      --surface: #0a1020;
-      --border: #152040;
-      --border-light: #1e3060;
-      --text: #e8ecf4;
-      --text-secondary: rgba(232,236,244,0.6);
-      --text-tertiary: rgba(232,236,244,0.32);
-      --accent: #3b82f6;
-      --accent-dim: rgba(59,130,246,0.12);
-      --warn: #f59e0b;
-      --warn-dim: rgba(245,158,11,0.12);
-      --danger: #ef4444;
+      --bg: #080c14;
+      --surface: #0c1220;
+      --border: #18243a;
+      --border-light: #243554;
+      --text: #e4e8f0;
+      --text-secondary: rgba(228,232,240,0.55);
+      --text-tertiary: rgba(228,232,240,0.28);
+      --accent: #00d4aa;
+      --accent-dim: rgba(0,212,170,0.1);
+      --warn: #f0a030;
+      --warn-dim: rgba(240,160,48,0.1);
+      --danger: #e04040;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 15px;
       background: var(--bg);
       color: var(--text);
@@ -73,14 +76,14 @@
     }
 
     .nav-brand {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 14px; font-weight: 700;
       color: var(--text);
       letter-spacing: 0.04em;
       text-decoration: none;
     }
 
-    .nav-brand span { color: var(--accent); }
+    .nav-brand span { color: var(--accent); font-weight: 400; }
 
     .nav-cta {
       padding: 8px 20px;
@@ -93,7 +96,7 @@
       transition: background 0.2s;
     }
 
-    .nav-cta:hover { background: #2563eb; }
+    .nav-cta:hover { background: #00b894; }
 
     /* ── HERO ── */
     .hero {
@@ -119,7 +122,7 @@
     }
 
     .hero-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 11px; font-weight: 500;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -167,7 +170,7 @@
       transition: background 0.2s;
     }
 
-    .btn-primary:hover { background: #2563eb; }
+    .btn-primary:hover { background: #00b894; }
 
     .btn-ghost {
       padding: 14px 28px;
@@ -208,7 +211,7 @@
     }
 
     .section-label {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 11px; font-weight: 500;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -246,7 +249,7 @@
     }
 
     .tile-num {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 10px; color: var(--accent);
       margin-bottom: 16px;
     }
@@ -283,7 +286,7 @@
     }
 
     .stat-value {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'IBM Plex Mono', monospace;
       font-size: clamp(20px, 3vw, 32px);
       font-weight: 800;
       color: var(--text);
@@ -315,7 +318,7 @@
     }
 
     .roadmap-phase {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 11px; font-weight: 700;
       color: var(--accent);
       text-transform: uppercase;
@@ -465,7 +468,7 @@
       transition: background 0.2s;
     }
 
-    .form-submit:hover { background: #2563eb; }
+    .form-submit:hover { background: #00b894; }
     .form-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
     .form-note {
@@ -488,7 +491,7 @@
     }
 
     .footer-left {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'IBM Plex Mono', monospace;
       font-size: 11px; color: var(--text-tertiary);
       letter-spacing: 0.05em;
     }
