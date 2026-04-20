@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinisImpact | Orbital Safety System of Record</title>
+  <meta name="description" content="Real-time orbital risk scoring for satellites and near-Earth objects. Conjunction assessment, maneuver planning, and planetary defense. API-first. Decision-ready.">
+  <meta name="keywords" content="orbital safety, conjunction assessment, collision avoidance, space debris, satellite operations, planetary defense, DART, near-Earth objects, space situational awareness, SSA">
+  <link rel="canonical" href="https://finisimpact.com">
+  <meta name="theme-color" content="#0a1628">
+
+  <meta property="og:title" content="FinisImpact | End Impacts. From Orbit to Earth.">
+  <meta property="og:description" content="Real-time orbital risk scoring for satellites and near-Earth objects. API-first. Decision-ready. Autonomy-ready.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://finisimpact.com">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "FinisImpact",
+    "url": "https://finisimpact.com",
+    "applicationCategory": "Space Safety",
+    "description": "Orbital safety system of record. Conjunction assessment, collision avoidance, and planetary defense.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "FinisImpact"
+    }
+  }
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #060a12;
+      --surface: #0a1020;
+      --border: #152040;
+      --border-light: #1e3060;
+      --text: #e8ecf4;
+      --text-secondary: rgba(232,236,244,0.6);
+      --text-tertiary: rgba(232,236,244,0.32);
+      --accent: #3b82f6;
+      --accent-dim: rgba(59,130,246,0.12);
+      --warn: #f59e0b;
+      --warn-dim: rgba(245,158,11,0.12);
+      --danger: #ef4444;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 15px;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 14px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(6,10,18,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px; font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+    }
+
+    .nav-brand span { color: var(--accent); }
+
+    .nav-cta {
+      padding: 8px 20px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      border: none; border-radius: 3px;
+      cursor: pointer; text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .nav-cta:hover { background: #2563eb; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 32px 80px;
+      position: relative;
+      background: url('https://images-assets.nasa.gov/image/PIA25329/PIA25329~medium.jpg')
+        center center / cover no-repeat;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(6,10,18,0.85) 0%, rgba(6,10,18,0.6) 40%, rgba(6,10,18,0.9) 100%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative; z-index: 1;
+      max-width: 800px;
+    }
+
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: clamp(48px, 7vw, 96px);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+
+    .hero h1 .word-finis { color: var(--text); }
+    .hero h1 .word-impact { color: var(--text); opacity: 0.35; }
+
+    .hero-tagline {
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    .btn-primary {
+      padding: 14px 28px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 13px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      border: none; border-radius: 3px;
+      cursor: pointer; text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover { background: #2563eb; }
+
+    .btn-ghost {
+      padding: 14px 28px;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+      border: 1px solid var(--border-light);
+      border-radius: 3px;
+      cursor: pointer; text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-ghost:hover { color: var(--text); border-color: var(--text-secondary); }
+
+    /* ── IMAGE STRIP ── */
+    .image-strip {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      height: 240px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .image-strip img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: saturate(0.5) brightness(0.4) contrast(1.1);
+      transition: filter 0.5s;
+    }
+
+    .image-strip img:hover { filter: saturate(0.7) brightness(0.55); }
+
+    /* ── SECTIONS ── */
+    section { padding: 96px 0; }
+
+    .section-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      font-size: 15px;
+      color: var(--text-secondary);
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    /* ── THREE TILES ── */
+    .tiles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 56px;
+    }
+
+    .tile {
+      background: var(--surface);
+      padding: 48px 32px;
+    }
+
+    .tile-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .tile-name {
+      font-size: 22px; font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .tile-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── STATS ── */
+    .stats-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 56px;
+    }
+
+    .stat-card {
+      background: var(--bg);
+      padding: 40px 24px;
+    }
+
+    .stat-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(20px, 3vw, 32px);
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ── ROADMAP ── */
+    .roadmap {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+      margin-top: 56px;
+    }
+
+    .roadmap-item {
+      background: var(--surface);
+      padding: 40px 32px;
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .roadmap-phase {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding-top: 4px;
+    }
+
+    .roadmap-title {
+      font-size: 18px; font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .roadmap-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── QUOTE ── */
+    .quote-section {
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .quote-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 32px 0 35px;
+      border-left: 3px solid var(--accent);
+    }
+
+    .quote-inner blockquote {
+      font-size: clamp(20px, 2.5vw, 30px);
+      font-weight: 600;
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+    }
+
+    .quote-inner cite {
+      font-style: normal;
+      font-size: 12px;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    /* ── CONTACT / CTA ── */
+    #contact { background: var(--bg); }
+
+    .cta-box {
+      margin-top: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .cta-info { padding-top: 8px; }
+
+    .cta-info h3 {
+      font-size: 20px; font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .cta-info p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .cta-details {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+
+    .cta-detail {
+      display: flex; gap: 12px; align-items: center;
+      font-size: 13px; color: var(--text-secondary);
+    }
+
+    .cta-detail::before {
+      content: '';
+      width: 4px; height: 4px;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .form-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 40px 32px;
+    }
+
+    .form-box h3 {
+      font-size: 16px; font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .form-group { margin-bottom: 16px; }
+
+    .form-group label {
+      display: block; font-size: 11px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+
+    .form-group label .req { color: var(--danger); }
+
+    .form-input {
+      width: 100%;
+      padding: 11px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border-light);
+      color: var(--text);
+      font-family: inherit; font-size: 14px;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus { outline: none; border-color: var(--accent); }
+    .form-input::placeholder { color: var(--text-tertiary); }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    textarea.form-input { resize: none; min-height: 80px; }
+
+    select.form-input {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='rgba(232,236,244,0.4)' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 13px 24px;
+      background: var(--accent);
+      color: #fff;
+      font-family: inherit; font-size: 13px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      border: none; border-radius: 3px;
+      cursor: pointer; margin-top: 8px;
+      transition: background 0.2s;
+    }
+
+    .form-submit:hover { background: #2563eb; }
+    .form-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .form-note {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .form-success { text-align: center; padding: 40px 0; }
+    .form-success h3 { font-size: 20px; margin-bottom: 8px; }
+    .form-success p { color: var(--text-secondary); font-size: 14px; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 32px 32px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      max-width: 1080px; margin: 0 auto;
+    }
+
+    .footer-left {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--text-tertiary);
+      letter-spacing: 0.05em;
+    }
+
+    .footer-right {
+      font-size: 10px; color: var(--text-tertiary);
+      text-align: right; max-width: 400px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .tiles { grid-template-columns: 1fr 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .cta-box { grid-template-columns: 1fr; }
+      .roadmap-item { grid-template-columns: 1fr; gap: 8px; }
+    }
+
+    @media (max-width: 600px) {
+      .tiles { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .image-strip { grid-template-columns: 1fr; height: auto; }
+      .image-strip img { height: 180px; }
+      .form-row { grid-template-columns: 1fr; }
+      nav { padding: 12px 16px; }
+      .hero { padding: 0 16px 60px; }
+      .section-inner { padding: 0 16px; }
+      footer { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-brand">Finis<span>Impact</span></a>
+    <a href="#contact" class="nav-cta">Request Access</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-label">Orbital Safety System of Record</div>
+      <h1>
+        <span class="word-finis">Finis</span><span class="word-impact">Impact</span>
+      </h1>
+      <p class="hero-tagline">End impacts. From orbit to Earth.</p>
+      <p class="hero-desc">
+        Real-time orbital risk scoring for satellites and near-Earth objects.
+        API-first. Decision-ready. Autonomy-ready.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Request Access</a>
+        <a href="#roadmap" class="btn-ghost">See Roadmap</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- NASA PUBLIC DOMAIN IMAGERY -->
+  <div class="image-strip">
+    <img
+      src="https://images-assets.nasa.gov/image/PIA25253/PIA25253~medium.jpg"
+      alt="NEO Surveyor spacecraft in infrared starfield. NASA/JPL-Caltech, public domain."
+      loading="lazy"
+    >
+    <img
+      src="https://images-assets.nasa.gov/image/PIA24168/PIA24168~medium.jpg"
+      alt="Goldstone radar observations of asteroid 99942 Apophis. NASA/JPL-Caltech, public domain."
+      loading="lazy"
+    >
+    <img
+      src="https://images-assets.nasa.gov/image/0102743/0102743~medium.jpg"
+      alt="Electro-mechanical actuators for thrust vector control. NASA, public domain."
+      loading="lazy"
+    >
+  </div>
+
+  <!-- WHAT WE DO -->
+  <section>
+    <div class="section-inner">
+      <div class="section-label">Capabilities</div>
+      <h2 class="section-title">Detect. Decide. Deflect.</h2>
+      <p class="section-desc">
+        Three layers of orbital protection. From conjunction screening
+        to autonomous maneuver planning to planetary defense.
+      </p>
+
+      <div class="tiles">
+        <div class="tile">
+          <div class="tile-num">01</div>
+          <h3 class="tile-name">Detect</h3>
+          <p class="tile-desc">Ingest global SSA catalogs (18th SDS), TLEs, operator ephemerides, and NEO feeds from NASA CNEOS. Continuous screening at scale, millions of conjunction checks per day.</p>
+        </div>
+        <div class="tile">
+          <div class="tile-num">02</div>
+          <h3 class="tile-name">Decide</h3>
+          <p class="tile-desc">Probabilistic collision risk (Pc), covariance propagation, ranked conjunctions. Fuel-aware maneuver options with delta-v, cost, and miss distance. Cut noise by 90%+.</p>
+        </div>
+        <div class="tile">
+          <div class="tile-num">03</div>
+          <h3 class="tile-name">Deflect</h3>
+          <p class="tile-desc">Actionable burn plans today. Mission design for kinetic impactor deflection tomorrow. From satellite avoidance to asteroid redirection, the same physics, the same platform.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY IT MATTERS -->
+  <section class="stats-section">
+    <div class="section-inner">
+      <div class="section-label">Why it matters</div>
+      <h2 class="section-title">Numbers, not adjectives</h2>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">10M+</div>
+          <div class="stat-label">Conjunction checks per day across active catalog</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">90%</div>
+          <div class="stat-label">Noise reduction: top-N actionable alerts only</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">&Delta;v</div>
+          <div class="stat-label">Fuel-optimized maneuvers that extend satellite life</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">Reg-ready</div>
+          <div class="stat-label">Compliance reporting for regulators and insurers</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <div class="quote-section">
+    <div class="quote-inner">
+      <blockquote>"You monetize collision avoidance for satellites today. You earn the right to do asteroid deflection tomorrow."</blockquote>
+      <cite>Core Thesis</cite>
+    </div>
+  </div>
+
+  <!-- ROADMAP -->
+  <section id="roadmap">
+    <div class="section-inner">
+      <div class="section-label">Roadmap</div>
+      <h2 class="section-title">Three phases to planetary scale</h2>
+      <p class="section-desc">
+        Each phase unlocks revenue and credibility for the next.
+        Sell orbit safety now, earn the right to defend Earth later.
+      </p>
+
+      <div class="roadmap">
+        <div class="roadmap-item">
+          <div class="roadmap-phase">V1: Now</div>
+          <div>
+            <h3 class="roadmap-title">Orbit Safety</h3>
+            <p class="roadmap-desc">Ingest SSA catalogs (18th SDS), TLEs, operator ephemerides. Compute conjunction assessment (Pc), covariance propagation, screening. Output ranked alerts with recommended maneuvers, delta-v, fuel cost, and miss distance. Deliver via API, dashboard, email/webhooks.</p>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-phase">V2: Expand</div>
+          <div>
+            <h3 class="roadmap-title">Autonomous Maneuvers</h3>
+            <p class="roadmap-desc">Integrate with flight software and ops consoles. One-click burn plans with closed-loop verification post-maneuver. Debris avoidance and traffic management layer for constellation operators.</p>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-phase">V3: Defend</div>
+          <div>
+            <h3 class="roadmap-title">Planetary Defense</h3>
+            <p class="roadmap-desc">NEO ingestion from NASA CNEOS. Impact probability pipelines, scenario simulation. Deflection playbooks (kinetic impactor, targeting windows, mission design partners). The DART mission proved it works. We build the operational layer.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <div class="section-label">Get Started</div>
+      <h2 class="section-title">Request early access</h2>
+      <p class="section-desc">
+        We're onboarding satellite operators and constellation teams
+        for V1. Tell us about your operations.
+      </p>
+
+      <div class="cta-box">
+        <div class="cta-info">
+          <h3>What you get</h3>
+          <p>API access to conjunction assessment, ranked alerts, and maneuver recommendations. Dashboard for ops teams. Webhook integration for automated workflows.</p>
+          <div class="cta-details">
+            <div class="cta-detail">Real-time conjunction screening against full public catalog</div>
+            <div class="cta-detail">Probability of collision (Pc) with covariance propagation</div>
+            <div class="cta-detail">Delta-v optimized maneuver recommendations</div>
+            <div class="cta-detail">Compliance-ready reporting (FCC, ITU, insurers)</div>
+          </div>
+        </div>
+
+        <div class="form-box" id="form-container">
+          <h3>Tell us about your mission</h3>
+          <form id="lead-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Name <span class="req">*</span></label>
+                <input type="text" name="name" class="form-input" placeholder="Your name" required maxlength="100">
+              </div>
+              <div class="form-group">
+                <label>Work Email <span class="req">*</span></label>
+                <input type="email" name="email" class="form-input" placeholder="you@company.com" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Organization <span class="req">*</span></label>
+                <input type="text" name="company" class="form-input" placeholder="Company or agency" required maxlength="200">
+              </div>
+              <div class="form-group">
+                <label>Role</label>
+                <select name="role" class="form-input">
+                  <option value="">Select...</option>
+                  <option value="ops">Satellite Operations</option>
+                  <option value="engineering">Mission Engineering</option>
+                  <option value="executive">Executive / BD</option>
+                  <option value="government">Government / Regulator</option>
+                  <option value="insurance">Insurance / Underwriting</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Tell us about your operations</label>
+              <textarea name="message" class="form-input" placeholder="Fleet size, orbit regime, current conjunction screening process, what you need..." maxlength="2000"></textarea>
+            </div>
+
+            <button type="submit" class="form-submit" id="submit-btn">Request Access</button>
+
+            <p class="form-note">
+              Early access program. We respond within 24 hours.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-left">FinisImpact &copy; 2026</div>
+    <div class="footer-right">Imagery: NASA/JPL-Caltech, NASA/Goddard (public domain). Not affiliated with NASA or U.S. government.</div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('lead-form');
+    const container = document.getElementById('form-container');
+    const submitBtn = document.getElementById('submit-btn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      const fd = new FormData(form);
+      const role = fd.get('role') || 'Not specified';
+      const ops = fd.get('message') || 'No details provided';
+      const fullMessage = `[FinisImpact Lead]\nRole: ${role}\n\nOperations:\n${ops}`;
+
+      try {
+        const res = await fetch('https://bomforge.com/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: fd.get('name'),
+            email: fd.get('email'),
+            company: fd.get('company'),
+            message: fullMessage,
+          }),
+        });
+
+        if (!res.ok) throw new Error('Failed');
+
+        container.innerHTML = `
+          <div class="form-success">
+            <h3>Access request received</h3>
+            <p>We'll be in touch within 24 hours to discuss your mission.</p>
+          </div>
+        `;
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Request Access';
+        alert('Something went wrong. Please email contact@finisimpact.com directly.');
+      }
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
+
+</body>
+</html>
